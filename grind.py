@@ -75,7 +75,7 @@ def resurs(user):
 =============================
 
 """)
-		print(resur)
+		print(colored(resur,'red'))
 
 def Help():
 	print(f"""
@@ -124,7 +124,7 @@ def send():
 def update():
 	if r == "улучшить дерево" :
 		for val in sql.execute(f"SELECT * from users WHERE user = '{user}'"):
-			if val[4] >= (2 + val[1] * 79) :
+			if val[4] >= (2 + val[1] * 79) and val[1] + 1 <= 10:
 				sql.execute(f"UPDATE users set money = {val[4] - (2 + val[1] * 79)}")
 				sql.execute(f"UPDATE users set woodspeed = {val[1] + 1}")
 				db.commit()
@@ -132,16 +132,16 @@ def update():
 				print("недостаточно денег")
 	if r == "улучшить камень" :
 		for val in sql.execute(f"SELECT * from users WHERE user = '{user}'"):
-			if val[4] >= (70 + val[6] * 269) :
-				sql.execute(f"UPDATE users set money = {val[6] - (70 + val[6] * 269)}")
+			if val[4] >= (70 + val[6] * 269) and val[6] + 1 <= 10:
+				sql.execute(f"UPDATE users set money = {val[4] - (70 + val[6] * 269)}")
 				sql.execute(f"UPDATE users set stoneSpeed = {val[6] + 1}")
 				db.commit()
 			else :
 				print("недостаточно денег")
 	if r == "улучшить уголь" :
 		for val in sql.execute(f"SELECT * from users WHERE user = '{user}'"):
-			if val[4] >= (800 + val[3] * 1569) :
-				sql.execute(f"UPDATE users set money = {val[4] - 800 + val[3] * 1569}")
+			if val[4] >= (800 + val[3] * 1569) and val[3] + 1 <= 10:
+				sql.execute(f"UPDATE users set money = {val[4] - (800 + val[3] * 1569)}")
 				sql.execute(f"UPDATE users set Cspeed = {val[3] + 1}")
 				db.commit()
 			else :
@@ -156,13 +156,13 @@ while True:
 			sql.execute(f"UPDATE users set C='{val[2] + coint() * val[3]}' WHERE user='{user}'")
 			sql.execute(f"UPDATE users set stone='{val[5] + coint() * val[6]}' WHERE user='{user}'")
 			sql.execute(f"UPDATE users set date='{datetime.datetime.today()}' WHERE user='{user}'")
+			db.commit()
 			file = open(f"{div}statistick.txt","r")
 			state = file.read()
 			file.close
 			file = open(f"{div}statistick.txt","w")
 			file.write(f"{state}\n{val[7]}|{val[4]}|{val[0]}#{val[1]} |{val[2]}#{val[3]}|{val[5]}#{val[6]}| {val[8]}")
 			file.close()
-			db.commit()
 	resurs(user)
 	r = input("действие :")
 	os.system("cls")
@@ -180,7 +180,7 @@ while True:
 скорость [{val[6] * '#'}{(10 - val[6]) * '-'}]
 цена : [{70 + val[6] * 269} монет]
 =============================
-добыча уголя : 
+добыча угля : 
 скорость [{val[3] * '#'}{(10 - val[3]) * '-'}]
 цена : [{800 + val[3] * 1569} монеты]
 скорость """)
